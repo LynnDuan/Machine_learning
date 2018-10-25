@@ -5,6 +5,9 @@ import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 import torch.optim as optim
 NUM_EPOCH = 10
+learning_rate = 0.001
+str_pre = 'pre'
+file_name = 'imagenet_' +str(learning_rate)+'_'+str(NUM_EPOCH)+'_'+str_pre
 
 class ResNet50_CIFAR(nn.Module):
     def __init__(self):
@@ -46,9 +49,12 @@ def train():
     ## Create model, objective function and optimizer
     model = ResNet50_CIFAR()
     model.cuda()
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(list(model.fc1.parameters()) + list(model.fc2.parameters()),
-                           lr=0.001, momentum=0.9)
+    # criterion = nn.CrossEntropyLoss()
+    criterion = nn.MSELoss().cuda()#change criterion to MSEloss
+    # optimizer = optim.SGD(list(model.fc1.parameters()) + list(model.fc2.parameters()),
+    #                       lr=0.001, momentum=0.9)
+    optimizer = optim.Adam(list(model.fc1.parameters()) + list(model.fc2.parameters()), lr = learning_rate)
+
     
     train_losses = []
     valid_losses = []
@@ -99,7 +105,14 @@ def train():
 
     print('Finished Training')
 
-
+train_losses = np.asarray(train_losses)
+valid_losses = np.asarray(valid_losses)
+plt.plot(train_losses[:, 0],
+         train_losses[:, 1])
+plt.plot(valid_losses[:, 0],
+         valid_losses[:, 1])
+plt.show()
+plt.savefig(file_name+'.jpg')
 
 
 
