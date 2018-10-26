@@ -21,6 +21,14 @@ class ResNet50_CIFAR(nn.Module):
         self.fc1 = nn.Linear(2048, 32)
         self.dropout = nn.Dropout(p=0.5)
         self.fc2 = nn.Linear(32, 10)
+        # modfiy method
+        # self.backbone = nn.Sequential(*modules)
+        # self.fc1 = nn.Linear(2048, 1024)
+        # self.dropout = nn.Dropout(p=0.5)
+        # self.fc2 = nn.Linear(1024, 32)
+        # self.dropout = nn.Dropout(p=0.5)
+        # self.fc3 = nn.Linear(32, 10)
+
 
     def forward(self, img):
         # Get the flattened vector from the backbone of resnet50
@@ -30,6 +38,12 @@ class ResNet50_CIFAR(nn.Module):
         out = self.fc1(out)
         out = self.dropout(out)
         return self.fc2(out)
+        #modfiy structure
+        # out = self.fc1(out)
+        # out = self.dropout(out)
+        # out = self.fc2(out)
+        # out = self.dropout(out)
+        # return self.fc3(out)
 
 def train():
     ## Define the training dataloader
@@ -41,9 +55,9 @@ def train():
                                                          (0.5, 0.5, 0.5))])
     trainset = datasets.CIFAR10('./traindata', download=True, transform=transform)
     validset =  datasets.CIFAR10('./testdata',train=False, download=True, transform=transform)
-    trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,
+    trainloader = torch.utils.data.DataLoader(trainset, batch_size=16,#change batch size to 16
                                           shuffle=True, num_workers=2)
-    validloader = torch.utils.data.DataLoader(validset, batch_size=4,
+    validloader = torch.utils.data.DataLoader(validset, batch_size=16,
                                           shuffle=True, num_workers=2)
 
     ## Create model, objective function and optimizer
@@ -105,14 +119,14 @@ def train():
 
     print('Finished Training')
 
-train_losses = np.asarray(train_losses)
-valid_losses = np.asarray(valid_losses)
-plt.plot(train_losses[:, 0],
-         train_losses[:, 1])
-plt.plot(valid_losses[:, 0],
-         valid_losses[:, 1])
-plt.show()
-plt.savefig(file_name+'.jpg')
+    train_losses = np.asarray(train_losses)
+    valid_losses = np.asarray(valid_losses)
+    plt.plot(train_losses[:, 0],
+            train_losses[:, 1])
+    plt.plot(valid_losses[:, 0],
+            valid_losses[:, 1])
+    plt.show()
+    plt.savefig(file_name+'.jpg')
 
 
 
