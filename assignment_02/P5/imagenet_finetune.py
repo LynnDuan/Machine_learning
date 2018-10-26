@@ -4,7 +4,7 @@ import torch.nn as nn
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 import torch.optim as optim
-NUM_EPOCH = 10
+NUM_EPOCH = 10 # change max_epoch to 50
 learning_rate = 0.001
 str_pre = 'pre'
 file_name = 'imagenet_' +str(learning_rate)+'_'+str(NUM_EPOCH)+'_'+str_pre
