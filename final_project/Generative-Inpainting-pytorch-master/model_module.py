@@ -261,6 +261,9 @@ class Contextual_Attention_Module(nn.Module):
 
     # padding1(16 x 128 x 64 x 64) => (16 x 128 x 64 x 64 x 3 x 3)
     def extract_patches(self, x, kernel=3, stride=1):
+        # x = self.padding(x)
+        # all_patches = x.unfold(2, kernel, stride).unfold(3, kernel, stride)
         x = self.padding(x)
-        all_patches = x.unfold(2, kernel, stride).unfold(3, kernel, stride)
+        x = x.permute(0, 2, 3, 1)
+        all_patches = x.unfold(1, kernel, stride).unfold(2, kernel, stride) 
         return all_patches

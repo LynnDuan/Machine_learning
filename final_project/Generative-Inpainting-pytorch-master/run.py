@@ -17,6 +17,11 @@ class Run(object):
             self.data_loader = get_loader(args.IMAGE_PATH, args.METADATA_PATH, 
                                         args.CROP_SIZE, args.IMG_SIZE, 
                                         args.BATCH_SIZE, args.DATASET, args.MODE)
+        
+        if args.DATASET == 'Places2':
+            self.data_loader = get_loader(args.IMAGE_PATH, args.METADATA_PATH, 
+                                        args.CROP_SIZE, args.IMG_SIZE, 
+                                        args.BATCH_SIZE, args.DATASET, args.MODE)
 
         # Model hyper-parameters
         self.image_shape = args.IMG_SHAPE
@@ -126,6 +131,7 @@ class Run(object):
             for batch, real_image in enumerate(self.data_loader): # real_image : B x 3 x H x W
                 
                 batch_size = real_image.size(0)
+                # print(str(batch), real_image.size())
                 real_image = 2.*real_image - 1. # [-1,1]
                 
                 # one bbox for each batch, ( top, left, maxH, maxW )
@@ -211,11 +217,11 @@ class Run(object):
                     print("Elapsed [{}], Epoch [{}/{}], Iter [{}/{}]".format(
                         elapsed, epoch+1, self.num_epochs, batch+1, iters_per_epoch))
                     print('=====================================================')
-                    print('reconstruction loss: ', self.loss['recon'].data[0])
+                    # print('reconstruction loss: ', self.loss['recon'].data[0])
                     print('ae loss: ', self.loss['ae_loss'].data[0][0])
                     print('g loss: ', self.loss['g_loss'].data[0])
                     print('d loss: ', self.loss['d_loss'].data[0])
-                    show_image(real_image, (masked_image+binary_mask), stage_1, stage_2, fake_image, offset_flow)
+                    # show_image(real_image, (masked_image+binary_mask), stage_1, stage_2, fake_image, offset_flow)
 
                 # Save model checkpoints
                 if batch % self.model_save_step == 0:
@@ -237,7 +243,8 @@ class Run(object):
             self.d_optimizer.step()
         if G:
             self.g_optimizer.zero_grad()
-            self.loss['g_loss'].backward()
+            # self.loss['g_loss'].backward() ##0.3
+            self.loss['g_loss'].sum().backward()
             self.g_optimizer.step()
 
     def wgan_loss(self, real, fake):

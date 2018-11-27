@@ -101,7 +101,8 @@ class Discounted_L1(nn.Module):
                 return d
             return torch.mean(d) if size_average else torch.sum(d)
         else:
-            return lambd_optimized(input, target, size_average, reduce)
+            # return lambd_optimized(input, target, size_average, reduce) # 0.3?
+            return lambd_optimized(input, target) # 0.4
 
 
 def spatial_discounting_mask(mask_width, mask_height, discounting_gamma):
@@ -148,7 +149,8 @@ def down_sample(x, size=None, scale_factor=None, mode='nearest'):
     grid = grid.unsqueeze(0).repeat(x.size(0),1,1,1)
     if x.is_cuda: grid = Variable(grid).cuda()
     # do sampling
-    return F.grid_sample(x, grid, mode=mode)
+    # return F.grid_sample(x, grid, mode=mode) # pytorch 0.3
+    return F.grid_sample(x, grid) # pytorch 0.4
 
 
 def reduce_mean(x):

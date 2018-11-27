@@ -30,12 +30,13 @@ parser.add_argument('--AE_LOSS_ALPHA', type=float, default=2)
 parser.add_argument('--D_TRAIN_REPEAT', type=int, default=5)
 
 # Training settings
-parser.add_argument('--DATASET', type=str, default='CelebA', choices=['CelebA'])
+# parser.add_argument('--DATASET', type=str, default='CelebA', choices=['CelebA'])
+parser.add_argument('--DATASET', type=str, default='Places2', choices=['CelebA', 'Places2'])
 parser.add_argument('--NUM_EPOCHS', type=int, default=100)
 parser.add_argument('--NUM_EPOCHS_DECAY', type=int, default=10)
 parser.add_argument('--NUM_ITERS', type=int, default=200000)
 parser.add_argument('--NUM_ITERS_DECAY', type=int, default=100000)
-parser.add_argument('--BATCH_SIZE', type=int, default=32)
+parser.add_argument('--BATCH_SIZE', type=int, default=16)
 parser.add_argument('--BETA1', type=float, default=0.5)
 parser.add_argument('--BETA2', type=float, default=0.9)
 parser.add_argument('--PRETRAINED_MODEL', type=str, default=None)
@@ -49,8 +50,10 @@ parser.add_argument('--MODE', type=str, default='train', choices=['train', 'test
 parser.add_argument('--USE_TENSORBOARD', type=str2bool, default=False)
 
 # Path
-parser.add_argument('--IMAGE_PATH', type=str, default='./data/CelebA/images')
-parser.add_argument('--METADATA_PATH', type=str, default='./data/list_attr_celeba.txt')
+# parser.add_argument('--IMAGE_PATH', type=str, default='../GlobalLocalImageCompletion_TF-master/data/img_align_celeba/')
+# parser.add_argument('--METADATA_PATH', type=str, default='../list_attr_celeba.txt')
+parser.add_argument('--IMAGE_PATH', type=str, default='./data/test_256/')
+parser.add_argument('--METADATA_PATH', type=str, default='./data/list_attr_places.txt')
 parser.add_argument('--LOG_PATH', type=str, default='logs')
 parser.add_argument('--MODEL_SAVE_PATH', type=str, default='models')
 parser.add_argument('--SAMPLE_PATH', type=str, default='samples')
