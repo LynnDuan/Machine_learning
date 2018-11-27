@@ -5,9 +5,9 @@ from torch.autograd import Variable
 from util import *
 
 class Generator(nn.Module):
-    def __init__(self, first_dim=32):
+    def __init__(self, deform, first_dim=32):
         super(Generator,self).__init__()
-        self.stage_1 = CoarseNet(5, first_dim)
+        self.stage_1 = CoarseNet(5, first_dim, deform)
         self.stage_2 = RefinementNet(5, first_dim)
 
     def forward(self, masked_img, mask): # mask : 1 x 1 x H x W
@@ -34,10 +34,13 @@ class CoarseNet(nn.Module):
     # after atrous: same with the output size of the down module
     # after up : same with the input size
     '''
-    def __init__(self, in_ch, out_ch):
+    def __init__(self, in_ch, out_ch, deform):
         super(CoarseNet,self).__init__()
         self.down = Down_Module(in_ch, out_ch)
-        self.atrous = Dilation_Module(out_ch*4, out_ch*4)
+        if deform:
+            self.atrous = Dilation_Deform_Module(out_ch*4, out_ch*4)
+        else:
+            self.atrous = Dilation_Module(out_ch*4, out_ch*4)
         self.up = Up_Module(out_ch*4, 3)
 
     def forward(self, x, mask):

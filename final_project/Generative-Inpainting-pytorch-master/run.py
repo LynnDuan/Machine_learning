@@ -48,6 +48,7 @@ class Run(object):
         self.use_tensorboard = args.USE_TENSORBOARD
         self.pretrained_model = args.PRETRAINED_MODEL
         self.d_train_repeat = args.D_TRAIN_REPEAT
+        self.deform = args.DEFORM ##########add
 
         # Test settings
         self.test_model = args.TEST_MODEL
@@ -78,7 +79,7 @@ class Run(object):
     def init_network(self, args):
 
         # Models
-        self.G = Generator()
+        self.G = Generator(self.deform)
         self.D = Discriminator()
 
         # Optimizers

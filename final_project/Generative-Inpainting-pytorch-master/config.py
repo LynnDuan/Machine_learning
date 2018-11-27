@@ -36,11 +36,12 @@ parser.add_argument('--NUM_EPOCHS', type=int, default=100)
 parser.add_argument('--NUM_EPOCHS_DECAY', type=int, default=10)
 parser.add_argument('--NUM_ITERS', type=int, default=200000)
 parser.add_argument('--NUM_ITERS_DECAY', type=int, default=100000)
-parser.add_argument('--BATCH_SIZE', type=int, default=16)
+parser.add_argument('--BATCH_SIZE', type=int, default=16) ######
 parser.add_argument('--BETA1', type=float, default=0.5)
 parser.add_argument('--BETA2', type=float, default=0.9)
 parser.add_argument('--PRETRAINED_MODEL', type=str, default=None)
 parser.add_argument('--SPATIAL_DISCOUNTING_GAMMA', type=float, default=0.9)
+parser.add_argument('--DEFORM', type=bool, default=True) ##########add
 
 # Test settings
 parser.add_argument('--TEST_MODEL', type=str, default='20_1000')

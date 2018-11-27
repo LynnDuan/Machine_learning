@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
 from util import *
+from torch_deform_conv.layers import ConvOffset2D
 
 
 class Conv(nn.Module):
@@ -52,6 +53,22 @@ class Dilation_Module(nn.Module):
         for i in range(4):
             dilation *= 2
             layers.append(Conv(in_ch, out_ch, D=dilation, P=dilation))
+        self.out = nn.Sequential(*layers)
+
+    def forward(self, x):
+        return self.out(x)
+
+# conv 7~10
+# new
+class Dilation_Deform_Module(nn.Module):
+    def __init__(self, in_ch, out_ch):
+        super(Dilation_Deform_Module, self).__init__()
+        layers = []
+        dilation = 1
+        for i in range(4):
+            dilation *= 2
+            layers.append(Conv(in_ch, out_ch, D=dilation, P=dilation))
+            layers.append(ConvOffset2D(in_ch))
         self.out = nn.Sequential(*layers)
 
     def forward(self, x):
