@@ -19,14 +19,14 @@ parser.add_argument('--GPU', type=int, default=0)
 parser.add_argument('--CROP_SIZE', type=int, default=image_size+128) # 178
 parser.add_argument('--IMG_SIZE', type=int, default=image_size)
 
-parser.add_argument('--G_LR', type=float, default=1e-4)
-parser.add_argument('--D_LR', type=float, default=1e-4)
+parser.add_argument('--G_LR', type=float, default=1e-3)
+parser.add_argument('--D_LR', type=float, default=1e-3)
 parser.add_argument('--GLOBAL_WGAN_LOSS_ALPHA', type=float, default=1.)
 parser.add_argument('--WGAN_GP_LAMBDA', type=float, default=10)
 parser.add_argument('--GAN_LOSS_ALPHA', type=float, default=0.001)
-parser.add_argument('--COARSE_L1_ALPHA', type=float, default=2)
-parser.add_argument('--L1_LOSS_ALPHA', type=float, default=2)
-parser.add_argument('--AE_LOSS_ALPHA', type=float, default=2)
+parser.add_argument('--COARSE_L1_ALPHA', type=float, default=1.2)
+parser.add_argument('--L1_LOSS_ALPHA', type=float, default=1.2)
+parser.add_argument('--AE_LOSS_ALPHA', type=float, default=1.2)
 parser.add_argument('--D_TRAIN_REPEAT', type=int, default=5)
 
 # Training settings
